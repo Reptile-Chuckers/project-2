@@ -2,6 +2,9 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var exphbs = require("express-handlebars");
+var plaid = require('plaid')
+
+//imports
 var apiRoutes = require("./routes/api.routes.js");
 
 //app variable
