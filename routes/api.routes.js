@@ -6,9 +6,7 @@ var router = express.Router()
 
 //========== routes ==========
 
-router.get('*', function (req, res) {
-  res.render('index', { Test: 'Test' })
-})
+
 
 //============================
 

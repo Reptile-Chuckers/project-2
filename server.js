@@ -6,6 +6,7 @@ var plaid = require('plaid')
 
 //imports
 var apiRoutes = require("./routes/api.routes.js");
+var viewsRoutes = require("./routes/views.routes.js");
 
 //app variable
 var app = express();
@@ -26,6 +27,7 @@ app.set("view engine", "handlebars");
 
 //controller
 app.use(apiRoutes);
+app.use(viewsRoutes);
 
 //listen on port
 app.listen(PORT, function () {

@@ -1,0 +1,37 @@
+#body {
+    background-color: rgb(243, 243, 70);
+    font-family: 'PT Serif', serif;
+}
+
+#header {
+    background-color: lightblue;
+    width: 100%;
+}
+
+#header-font {
+    font-family: 'Lobster', cursive;
+    color: rgb(179, 115, 19);
+}
+
+.footer-font {
+    font-family: 'Lobster', cursive;
+    color: rgb(179, 115, 19);
+}
+
+#footer {
+    background-color: lightblue;
+}
+
+#login-chucker {
+    height: 30%;
+    width: 30%;
+    opacity: 0.5;
+}
+
+#home-elephant {
+    opacity: 0.8;
+}
+
+#profile-elephant {
+    opacity: 0.4;
+}
