@@ -1,9 +1,13 @@
 //env
 require('dotenv').config()
 
+
 //packages
 var express = require('express');
 var plaid = require('plaid');
+
+//IMPORTS
+var models = require("../models");
 
 //router variable
 var router = express.Router()
@@ -23,11 +27,22 @@ router.get('*', function (req, res) {
 })
 
 router.post('/api/public-token', function (req, res) {
-  process.env.PUBLIC_TOKEN = req.body.publicToken;
-  client.exchangePublicToken(publicToken, function (err, res) {
+  client.exchangePublicToken(req.body.publicToken, function (err, resp) {
+
     if (err) console.error(err);
-    process.env.ACCESS_TOKEN = res.access_token;
-    process.env.ITEM_ID = res.item_id;
+    console.log(resp)
+    models.Test.create({
+      access_token: resp.access_token,
+      item_id: resp.item_id
+    })
+      .then(function (dbPost) {
+        res.json(dbPost);
+      }).catch(
+        function (err) {
+          if (err) throw err;
+          console.error(err);
+        }
+      )
   })
 })
 
