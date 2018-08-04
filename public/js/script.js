@@ -3,7 +3,7 @@ var handler = Plaid.create({
   clientName: 'Plaid Walkthrough Demo',
   env: 'sandbox',
   product: ['transactions'],
-  key: '2a1a0ffef5bb3823c5298bb2c665aa',
+  key: "27a73558666b246bae92220f4cd360",
   onSuccess: function (public_token) {
     axios.post('/api/public-token', {
       publicToken: public_token

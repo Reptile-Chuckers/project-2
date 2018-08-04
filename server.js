@@ -2,6 +2,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var exphbs = require("express-handlebars");
+var models = require("./models");
 
 
 //imports
@@ -27,7 +28,13 @@ app.set("view engine", "handlebars");
 //controller
 app.use(apiRoutes);
 
-//listen on port
-app.listen(PORT, function () {
-  console.log("Server listening on port " + PORT);
-});
+
+
+//sequelize sync and listen
+models.sequelize.sync({force: false})
+.then(function(){
+  app.listen(PORT, function () {
+    console.log("Server listening on port " + PORT);
+  });
+})
+
