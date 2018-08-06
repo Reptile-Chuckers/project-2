@@ -10,6 +10,7 @@ var handler = Plaid.create({
     })
       .then(function (res) {
         console.log(res);
+        $('.plaid-accounts-button').removeClass('d-none')
       })
       .catch(function (err) {
         console.log(err);
@@ -18,5 +19,21 @@ var handler = Plaid.create({
 });
 
 $('.plaid-link-button').on('click', function () {
+  $('.plaid-link-button').remove();
   handler.open();
+})
+
+$('.plaid-accounts-button').on('click', function () {
+  axios.get('/api/accounts')
+    .then(function (res) {
+      console.log(res);
+      res.data.accounts.forEach(function (elem) {
+        console.log(elem)
+        $('.plaid-accounts-button').after(`<h3>${elem.name}: ${elem.balances.available}</h3>`)
+      })
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
 })

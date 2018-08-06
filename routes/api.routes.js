@@ -22,29 +22,43 @@ var client = new plaid.Client(
 
 //========== routes ==========
 
-router.get('*', function (req, res) {
-  res.render('index', { Test: 'Test' })
-})
-
-router.post('/api/public-token', function (req, res) {
+var testAccessToken;
+//--receive public token and exchange for access token and item id--
+router.post('/public-token', function (req, res) {
   client.exchangePublicToken(req.body.publicToken, function (err, resp) {
-
-    if (err) console.error(err);
-    console.log(resp)
     models.Test.create({
       access_token: resp.access_token,
       item_id: resp.item_id
     })
       .then(function (dbPost) {
         res.json(dbPost);
-      }).catch(
+        testAccessToken = dbPost.dataValues.access_token
+      })
+      .catch(
         function (err) {
           if (err) throw err;
           console.error(err);
         }
       )
   })
-})
+});
+
+router.get('/accounts', function (request, response, next) {
+  client.getAuth(testAccessToken, function (error, authResponse) {
+    if (error != null) {
+      var msg = 'Unable to pull accounts from the Plaid API.';
+      console.log(msg + '\n' + JSON.stringify(error));
+      return response.json({
+        error: msg
+      });
+    }
+    response.json({
+      error: false,
+      accounts: authResponse.accounts,
+      numbers: authResponse.numbers,
+    });
+  });
+});
 
 //============================
 
