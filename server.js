@@ -6,6 +6,7 @@ var models = require("./models");
 
 
 //imports
+var viewsRoutes = require("./routes/views.routes.js");
 var apiRoutes = require("./routes/api.routes.js");
 
 //app variable
@@ -26,15 +27,16 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 //controller
-app.use(apiRoutes);
+app.use(viewsRoutes);
+app.use('/api', apiRoutes);
 
 
 
 //sequelize sync and listen
-models.sequelize.sync({force: false})
-.then(function(){
-  app.listen(PORT, function () {
-    console.log("Server listening on port " + PORT);
-  });
-})
+models.sequelize.sync({ force: false })
+  .then(function () {
+    app.listen(PORT, function () {
+      console.log("Server listening on port " + PORT);
+    });
+  })
 
