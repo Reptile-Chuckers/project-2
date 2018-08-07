@@ -11,6 +11,7 @@ var handler = Plaid.create({
       .then(function (res) {
         console.log(res);
         $('.plaid-accounts-button').removeClass('d-none')
+        $('.plaid-transaction-history').removeClass('d-none')
       })
       .catch(function (err) {
         console.log(err);
@@ -35,5 +36,17 @@ $('.plaid-accounts-button').on('click', function () {
     .catch(function (error) {
       console.log(error);
     });
-
 })
+
+$('.plaid-transaction-history').on('click', function(){
+  axios.get("/api/transactions/")
+  .then(function(resp){
+    console.log(resp.data);
+    resp.data.accounts.forEach(function(elem){
+      console.log(elem) 
+    })
+  }).catch(function(error){
+    console.error(error)
+  })
+})
+
