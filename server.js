@@ -8,6 +8,7 @@ var models = require("./models");
 //imports
 var viewsRoutes = require("./routes/views.routes.js");
 var apiRoutes = require("./routes/api.routes.js");
+var viewsRoutes = require("./routes/views.routes.js");
 
 //app variable
 var app = express();
@@ -27,6 +28,8 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 //controller
+app.use(apiRoutes);
+app.use(viewsRoutes);
 app.use(viewsRoutes);
 app.use('/api', apiRoutes);
 
