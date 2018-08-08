@@ -24,6 +24,7 @@ $('.plaid-link-button').on('click', function () {
   handler.open();
 })
 
+//**CLICK EVENT MAKING AXIOS CALL TO GET ACCOUNT INFORMATION FROM /API/ACCOUNTS ROUTE */
 $('.plaid-accounts-button').on('click', function () {
   axios.get('/api/accounts')
     .then(function (res) {
@@ -38,15 +39,19 @@ $('.plaid-accounts-button').on('click', function () {
     });
 })
 
-$('.plaid-transaction-history').on('click', function(){
+//**CLICK EVENT MAKING AXIOS CALL TO GET PAST TRANSACTION DATA FROM /API/TRANSACTIONS ROUTE*/
+$('.plaid-transaction-history').on('click', function () {
   axios.get("/api/transactions/")
-  .then(function(resp){
-    console.log(resp.data);
-    resp.data.accounts.forEach(function(elem){
-      console.log(elem) 
-    })
-  }).catch(function(error){
-    console.error(error)
-  })
-})
+    .then(function (resp) {
+      resp.data.transactions.forEach(function (element) {
+        $('.plaid-transaction-history').after(`<div>${element.amount}</div><div>${element.date}</div>`)
+
+        var categoryString = element.category.join(" - ")
+
+        $('.plaid-transaction-history').after(`<div>${categoryString}</div>`);
+      });
+    }).catch(function (error) {
+      console.error(error)
+    });
+});
 
