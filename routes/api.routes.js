@@ -5,6 +5,7 @@ require('dotenv').config()
 //packages
 var express = require('express');
 var plaid = require('plaid');
+var moment = require('moment');
 
 //IMPORTS
 var models = require("../models");
@@ -60,6 +61,36 @@ router.get('/accounts', function (request, response, next) {
     });
   });
 });
+
+router.get('/transactions', function(request, response, next) {
+  // Pull transactions for the Item for the last 30 days
+  var startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
+  var endDate = moment().format('YYYY-MM-DD');
+  client.getTransactions(testAccessToken, '2017-01-01', '2017-02-15', {
+    count: 250,
+    offset: 0,
+  }, function(error, transactionsResponse) {
+    if (error != null) {
+      console.log(JSON.stringify(error));
+      return response.json({error: error});
+    }
+    console.log('pulled ' + transactionsResponse.transactions.length + ' transactions');
+    response.json(transactionsResponse);
+  });
+});
+
+// router.get('/transaction/get', function(req, response, next){
+//   // Retrieve transactions from Jan 1 until Feb 15
+// // NOTE: This endpoint may return a `PRODUCT_NOT_READY` error if transactions
+// // are not yet processed for the Item.
+// client.getTransactions(testAccessToken, '2017-01-01', '2017-02-15', {
+//   count: 250,
+//   offset: 0,
+// }, function(err, result){
+//   // Handle err
+//   var transactions = result.transactions;
+// });
+// })
 
 //============================
 
