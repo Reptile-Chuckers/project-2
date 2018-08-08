@@ -2,9 +2,11 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var exphbs = require("express-handlebars");
-var plaid = require('plaid')
+var models = require("./models");
+
 
 //imports
+var viewsRoutes = require("./routes/views.routes.js");
 var apiRoutes = require("./routes/api.routes.js");
 var viewsRoutes = require("./routes/views.routes.js");
 
@@ -28,8 +30,16 @@ app.set("view engine", "handlebars");
 //controller
 app.use(apiRoutes);
 app.use(viewsRoutes);
+app.use(viewsRoutes);
+app.use('/api', apiRoutes);
 
-//listen on port
-app.listen(PORT, function () {
-  console.log("Server listening on port " + PORT);
-});
+
+
+//sequelize sync and listen
+models.sequelize.sync({ force: false })
+  .then(function () {
+    app.listen(PORT, function () {
+      console.log("Server listening on port " + PORT);
+    });
+  })
+
