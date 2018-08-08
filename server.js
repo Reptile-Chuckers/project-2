@@ -33,13 +33,33 @@ app.use(viewsRoutes);
 app.use(viewsRoutes);
 app.use('/api', apiRoutes);
 
-
-
+const isDev = process.env.NODE_ENV === "development";
+console.log(isDev);
 //sequelize sync and listen
-models.sequelize.sync({ force: false })
+models.sequelize.sync({ force: isDev })
   .then(function () {
     app.listen(PORT, function () {
       console.log("Server listening on port " + PORT);
     });
+
+    //add placeholder users
+    models.User.create({
+      name: 'user1'
+    })
+      .then(function (res) {
+        console.log('created user1')
+      })
+      .catch(function (err) {
+        console.error(err);
+      })
+    models.User.create({
+      name: 'user2'
+    })
+      .then(function (res) {
+        console.log('created user1')
+      })
+      .catch(function (err) {
+        console.error(err);
+      })
   })
 
