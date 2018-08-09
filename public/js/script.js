@@ -10,7 +10,7 @@ var handler = Plaid.create({
     })
       .then(function (res) {
         console.log(res);
-        $('.plaid-accounts-button').removeClass('d-none')
+        $('.plaid-accounts').removeClass('d-none')
         $('.plaid-transaction-history').removeClass('d-none')
       })
       .catch(function (err) {
@@ -25,13 +25,13 @@ $('.plaid-link-button').on('click', function () {
 })
 
 //**CLICK EVENT MAKING AXIOS CALL TO GET ACCOUNT INFORMATION FROM /API/ACCOUNTS ROUTE */
-$('.plaid-accounts-button').on('click', function () {
+$('.plaid-accounts').on('click', function () {
   axios.get('/api/accounts')
     .then(function (res) {
       console.log(res);
       res.data.accounts.forEach(function (elem) {
         console.log(elem)
-        $('.plaid-accounts-button').after(`<h3>${elem.name}: ${elem.balances.available}</h3>`)
+        $('.plaid-accounts').after(`<h3>${elem.name}: ${elem.balances.available}</h3>`)
       })
     })
     .catch(function (error) {
