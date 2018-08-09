@@ -1,11 +1,10 @@
 #body {
-    background-color: rgb(243, 243, 70);
+    background-color: rgb(255, 255, 133);
     font-family: 'PT Serif', serif;
 }
 
 #header {
     background-color: lightblue;
-    width: 100%;
 }
 
 #header-font {
@@ -20,12 +19,6 @@
 
 #footer {
     background-color: lightblue;
-}
-
-#login-chucker {
-    height: 30%;
-    width: 30%;
-    opacity: 0.5;
 }
 
 #home-elephant {

@@ -1,7 +1,6 @@
 //env
 require('dotenv').config()
 
-
 //packages
 var express = require('express');
 var plaid = require('plaid');
@@ -21,11 +20,10 @@ var client = new plaid.Client(
   plaid.environments[process.env.PLAID_ENV]
 );
 
-//========== routes ==========
-
-
+//token
 var testAccessToken;
-//--receive public token and exchange for access token and item id--
+
+//routes
 router.post('/public-token', function (req, res) {
   client.exchangePublicToken(req.body.publicToken, function (err, resp) {
     models.Test.create({
@@ -62,17 +60,17 @@ router.get('/accounts', function (request, response, next) {
   });
 });
 
-router.get('/transactions', function(request, response, next) {
+router.get('/transactions', function (request, response, next) {
   // Pull transactions for the Item for the last 30 days
   var startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
   var endDate = moment().format('YYYY-MM-DD');
   client.getTransactions(testAccessToken, '2017-01-01', '2017-02-15', {
     count: 250,
     offset: 0,
-  }, function(error, transactionsResponse) {
+  }, function (error, transactionsResponse) {
     if (error != null) {
       console.log(JSON.stringify(error));
-      return response.json({error: error});
+      return response.json({ error: error });
     }
     console.log('pulled ' + transactionsResponse.transactions.length + ' transactions');
     response.json(transactionsResponse);
@@ -92,6 +90,5 @@ router.get('/transactions', function(request, response, next) {
 // });
 // })
 
-//============================
-
+//export
 module.exports = router;
