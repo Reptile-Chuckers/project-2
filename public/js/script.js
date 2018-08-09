@@ -24,15 +24,29 @@ $('.plaid-link-button').on('click', function () {
   handler.open();
 })
 
-//**CLICK EVENT MAKING AXIOS CALL TO GET ACCOUNT INFORMATION FROM /API/ACCOUNTS ROUTE */
+//account button click to get account balances
 $('.plaid-accounts').on('click', function () {
+  //remove button
+  $(this).remove();
+  //show loading
+  $('.plaid-info').prepend('<h5 class="loading">Loading...</h5>')
+  //axios get to plaid api route
   axios.get('/api/accounts')
     .then(function (res) {
-      console.log(res);
-      res.data.accounts.forEach(function (elem) {
-        console.log(elem)
-        $('.plaid-accounts').after(`<h3>${elem.name}: ${elem.balances.available}</h3>`)
+      //add each account to table
+      res.data.accounts.forEach(function (elem, index) {
+        var tableRow = $('<tr></tr>');
+        $('.accounts-table-body').append(tableRow);
+        tableRow.append(`<th>${index + 1}</th>`);
+        tableRow.append(`<td>${elem.name}</td>`);
+        tableRow.append(`<td class="text-right">${accounting.formatMoney(Number(elem.balances.available))}</td>`);
       })
+      //remove loading button
+      $('.loading').remove();
+      //show the table
+      $('.accounts-table-header').removeClass('d-none');
+      $('.accounts-table').removeClass('d-none');
+
     })
     .catch(function (error) {
       console.log(error);
