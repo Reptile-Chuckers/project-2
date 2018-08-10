@@ -39,12 +39,11 @@ const auth = jwt({
 
 //public routes
 app.use(publicRoutes)
-app.use('/auth', authRoutes)
+app.use('/auth', authRoutes);
+app.use(viewsRoutes);
 
 //protected routes
-//app.use(auth);
-
-app.use(viewsRoutes);
+app.use(auth);
 app.use('/api', apiRoutes);
 // app.use(function (err, req, res, next) {
 //   if (401 == err.status) {

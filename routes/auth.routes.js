@@ -32,7 +32,6 @@ router.post("/login", function (req, res) {
                         userID: resp.id,
                         name: resp.name,
                         email: resp.email,
-                        scaryStuff: "OOGA BOOOGA"
                     }, process.env.JWT_SECRET)
                 });
             }

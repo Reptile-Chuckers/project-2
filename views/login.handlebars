@@ -31,11 +31,16 @@
         .then(function (resp) {
           console.log(resp)
           window.localStorage.setItem("token", resp.data.token)
-          //window.location.assign("/profile");
+          window.location.assign("/profile");
         })
         .catch(function (err) {
           console.error(err);
         })
     })
+  </script>
+  <script>
+    $('.nav-link').removeClass('active');
+    var navItem = 'Login';
+    $(`.nav-link:contains('${navItem}')`).addClass('active');
   </script>
 </div>

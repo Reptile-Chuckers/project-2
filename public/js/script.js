@@ -1,3 +1,23 @@
+<<<<<<< HEAD
+$(document).ready(function () {
+  var token = window.localStorage.getItem("token");
+  // if (token) {
+  //   axios({
+  //     method: get,
+  //     url: "/api/protect",
+  //     headers: {
+  //       "Authorization": "Bearer " + token
+  //     }
+  //   })
+  //     .then(function (resp) {
+  //       console.log(resp)
+  //     })
+  //     .catch(function (err) {
+  //       console.error(err);
+  //     })
+  // }
+})
+=======
 var handler = Plaid.create({
   apiVersion: 'v2',
   clientName: 'Plaid Walkthrough Demo',
@@ -103,3 +123,4 @@ $(".plaid-income-button").on("click", function () {
     })
 })
 
+>>>>>>> 2bb06d32533882877b4657a121c6a8a019c41e0b

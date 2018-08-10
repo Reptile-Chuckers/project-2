@@ -8,5 +8,9 @@
             </div>
         </div>
     </div>
-
+    <script>
+        $('.nav-link').removeClass('active');
+        var navItem = 'Home';
+        $(`.nav-link:contains('${navItem}')`).addClass('active');
+    </script>
 </div>
