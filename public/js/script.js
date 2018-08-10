@@ -10,15 +10,8 @@ var handler = Plaid.create({
     })
       .then(function (res) {
         console.log(res);
-<<<<<<< HEAD
-        $('.plaid-accounts-button').removeClass('d-none');
-        $('.plaid-transaction-history').removeClass('d-none');
-        $('.plaid-income-button').removeClass('d-none');
-        $('.test-button').removeClass('d-none');
-=======
         $('.plaid-accounts').removeClass('d-none')
         $('.plaid-transaction-history').removeClass('d-none')
->>>>>>> ea3aae77071e24f9a67bb2ed0b88119e11ec785e
       })
       .catch(function (err) {
         console.log(err);
@@ -76,29 +69,29 @@ $('.plaid-transaction-history').on('click', function () {
     });
 });
 
-$(".plaid-income-button").on("click", function() {
+$(".plaid-income-button").on("click", function () {
   axios.get("/api/transactions/")
-  .then(function(resp) {
-    console.log(resp);
-    var totalIncome = 0;
-    var totalExpense = 0;
-    var netIncome = 0;
-    //Create a for loop to add together the total expenses
-    for (var i = 0; i < resp.data.transactions.length; i ++) {
-      console.log(resp.data.transactions[i].amount);
+    .then(function (resp) {
+      console.log(resp);
+      var totalIncome = 0;
+      var totalExpense = 0;
+      var netIncome = 0;
+      //Create a for loop to add together the total expenses
+      for (var i = 0; i < resp.data.transactions.length; i++) {
+        console.log(resp.data.transactions[i].amount);
         if (Number(resp.data.transactions[i].amount) < 0) {
           totalExpense += Number(resp.data.transactions[i].amount);
         } else {
           totalIncome += Number(resp.data.transactions[i].amount);
         }
-    }
+      }
 
-    netIncome = totalIncome + totalExpense;
+      netIncome = totalIncome + totalExpense;
 
-    $(".plaid-income-button").after(`<h3>Your net income: $${netIncome}</h3>`)
+      $(".plaid-income-button").after(`<h3>Your net income: $${netIncome}</h3>`)
 
-  }).catch(function(err) {
-    console.error(err)
-  })
+    }).catch(function (err) {
+      console.error(err)
+    })
 })
 
