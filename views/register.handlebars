@@ -3,7 +3,7 @@
     <div class="d-inline-block border rounded bg-light m-3 p-3">
       <div class="row">
         <div class="col my-3">
-          <h3>Login</h3>
+          <h3>Register</h3>
         </div>
       </div>
       <div class="row">
@@ -15,23 +15,23 @@
             <div class="mt-2">
               <input class="form-control" style="width: 400px" id="password" type="password" placeholder="Password">
             </div>
-            <button class="btn btn-primary mt-3" id="submit-login">Submit</button>
+            <button class="btn btn-primary mt-3" id="submit-register">Submit</button>
           </form>
         </div>
       </div>
     </div>
   </div>
   <script>
-    $("#submit-login").on("click", function (e) {
+    $("#submit-register").on("click", function (e) {
       e.preventDefault();
-      axios.post("/auth/login", {
+      axios.post("/auth/register", {
         email: $("#email").val(),
         password: $("#password").val(),
+        name: $("#name").val(),
       })
         .then(function (resp) {
           console.log(resp)
-          window.localStorage.setItem("token", resp.data.token)
-          //window.location.assign("/profile");
+          window.location.assign("/login");
         })
         .catch(function (err) {
           console.error(err);

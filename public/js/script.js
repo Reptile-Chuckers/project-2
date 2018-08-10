@@ -10,10 +10,15 @@ var handler = Plaid.create({
     })
       .then(function (res) {
         console.log(res);
+<<<<<<< HEAD
         $('.plaid-accounts-button').removeClass('d-none');
         $('.plaid-transaction-history').removeClass('d-none');
         $('.plaid-income-button').removeClass('d-none');
         $('.test-button').removeClass('d-none');
+=======
+        $('.plaid-accounts').removeClass('d-none')
+        $('.plaid-transaction-history').removeClass('d-none')
+>>>>>>> ea3aae77071e24f9a67bb2ed0b88119e11ec785e
       })
       .catch(function (err) {
         console.log(err);
@@ -26,31 +31,50 @@ $('.plaid-link-button').on('click', function () {
   handler.open();
 })
 
-$('.plaid-accounts-button').on('click', function () {
+//account button click to get account balances
+$('.plaid-accounts').on('click', function () {
+  //remove button
+  $(this).remove();
+  //show loading
+  $('.plaid-info').prepend('<h5 class="loading">Loading...</h5>')
+  //axios get to plaid api route
   axios.get('/api/accounts')
     .then(function (res) {
-      console.log(res);
-      res.data.accounts.forEach(function (elem) {
-        console.log(elem)
-        $('.plaid-accounts-button').after(`<h3>${elem.name}: ${elem.balances.available}</h3>`)
+      //add each account to table
+      res.data.accounts.forEach(function (elem, index) {
+        var tableRow = $('<tr></tr>');
+        $('.accounts-table-body').append(tableRow);
+        tableRow.append(`<th>${index + 1}</th>`);
+        tableRow.append(`<td>${elem.name}</td>`);
+        tableRow.append(`<td class="text-right">${accounting.formatMoney(Number(elem.balances.available))}</td>`);
       })
+      //remove loading button
+      $('.loading').remove();
+      //show the table
+      $('.accounts-table-header').removeClass('d-none');
+      $('.accounts-table').removeClass('d-none');
+
     })
     .catch(function (error) {
       console.log(error);
     });
 })
 
-$('.plaid-transaction-history').on('click', function(){
+//**CLICK EVENT MAKING AXIOS CALL TO GET PAST TRANSACTION DATA FROM /API/TRANSACTIONS ROUTE*/
+$('.plaid-transaction-history').on('click', function () {
   axios.get("/api/transactions/")
-  .then(function(resp){
-    console.log(resp.data);
-    resp.data.accounts.forEach(function(elem){
-      console.log(elem) 
-    })
-  }).catch(function(error){
-    console.error(error)
-  })
-})
+    .then(function (resp) {
+      resp.data.transactions.forEach(function (element) {
+        $('.plaid-transaction-history').after(`<div>${element.amount}</div><div>${element.date}</div>`)
+
+        var categoryString = element.category.join(" - ")
+
+        $('.plaid-transaction-history').after(`<div>${categoryString}</div>`);
+      });
+    }).catch(function (error) {
+      console.error(error)
+    });
+});
 
 $(".plaid-income-button").on("click", function() {
   axios.get("/api/transactions/")

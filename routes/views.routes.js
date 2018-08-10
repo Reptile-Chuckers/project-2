@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //env
 require('dotenv').config()
 
@@ -32,4 +33,18 @@ router.get('/profile', function (req, res) {
 
 //============================
 
+=======
+//requires
+var express = require('express');
+
+//router variable
+var router = express.Router()
+
+//routes
+router.get("/profile", function (req, res) {
+  res.render('profile');
+})
+
+//export
+>>>>>>> ea3aae77071e24f9a67bb2ed0b88119e11ec785e
 module.exports = router;
