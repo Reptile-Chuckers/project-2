@@ -1,25 +1,3 @@
-//requires
-var express = require('express');
-
-//router variable
-var router = express.Router()
-
-//===========routes============================
-router.get('/login', function (req, res) {
-    res.render('login')
-  })
-  
-  router.get("/", function(req, res) {
-    res.render('home');
-  })
-
-  router.get("/profile", function(req, res) {
-    res.render('profile');
-  })
-
-  //============================================
-
-  module.exports = router;
 //env
 require('dotenv').config()
 
@@ -38,6 +16,18 @@ var router = express.Router()
 //--index page--
 router.get('/', function (req, res) {
   res.render('index', { Test: 'Test' })
+})
+
+router.get('/home', function (req, res) {
+  res.render('home', { Test: 'Test' })
+})
+
+router.get('/login', function (req, res) {
+  res.render('login', { Test: 'Test' })
+})
+
+router.get('/profile', function (req, res) {
+  res.render('profile', { Test: 'Test' })
 })
 
 //============================
