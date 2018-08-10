@@ -43,6 +43,7 @@ app.use('/auth', authRoutes)
 
 //protected routes
 //app.use(auth);
+
 app.use(viewsRoutes);
 app.use('/api', apiRoutes);
 // app.use(function (err, req, res, next) {
