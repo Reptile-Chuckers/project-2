@@ -58,12 +58,20 @@ $('.plaid-transaction-history').on('click', function () {
   axios.get("/api/transactions/")
     .then(function (resp) {
       resp.data.transactions.forEach(function (element) {
-        $('.plaid-transaction-history').after(`<div>${element.amount}</div><div>${element.date}</div>`)
-
+        // $('.plaid-transaction-history').after(`<div>${element.amount}</div><div>${element.date}</div>`)
+console.log(element)
         var categoryString = element.category.join(" - ")
-
-        $('.plaid-transaction-history').after(`<div>${categoryString}</div>`);
-      });
+        var transTableRow = $('<tr></tr>')
+        $('.transaction-table-body').append(transTableRow);
+        transTableRow.append(`<td>${element.date}</td>`);
+        transTableRow.append(`<td>${element.amount}</td>`);
+        transTableRow.append(`<td>${categoryString}</td>`);
+        // tableRow.append(`<td class="text-right">${accounting.formatMoney(Number(elem.balances.available))}</td>`);
+      })
+      $('.transaction-table-header').removeClass('d-none');
+      $('.transaction-table').removeClass('d-none');
+        // $('.plaid-transaction-history').after(`<div>${categoryString}</div>`);
+     
     }).catch(function (error) {
       console.error(error)
     });
