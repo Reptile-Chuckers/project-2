@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="d-inline-block accounts-div">
-                            <h4 class="accounts-table-header d-none p-1 border bg-primary text-light">ACCOUNTS</h4>
+                            <h4 class="accounts-table-header d-none p-1 mb-0 border bg-primary text-light">ACCOUNTS</h4>
                             <table class="table table-light table-striped border text-left accounts-table d-none">
                                 <thead>
                                     <tr>
@@ -32,18 +32,18 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary plaid-transaction-history d-none">Transactions</button>
+            <button class="btn btn-primary plaid-transaction-history d-none" id="t-btn">Transactions</button>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col">
                         <div class="d-inline-block accounts-div">
-                            <h4 class="transaction-table-header d-none p-1 border bg-primary text-light">ACCOUNTS</h4>
+                            <h4 class="transaction-table-header d-none p-1 mb-0 border bg-primary text-light">TRANSACTIONS</h4>
                             <table class="table table-light table-striped border text-left transaction-table d-none">
                                 <thead>
                                     <tr>
-                                        <th>Date:</th>
-                                        <th>Amount:</th>
-                                        <th>Type:</th>                                       
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th class="text-right">Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody class="transaction-table-body">
@@ -53,6 +53,7 @@
                     </div>
                 </div>
             </div>
+            <button class="btn btn-primary plaid-income-button d-none">Income</button>
         </div>
     </div>
     <script>
@@ -90,8 +91,9 @@
                     })
                         .then(function (res) {
                             console.log(res);
-                            $('.plaid-accounts').removeClass('d-none')
-                            $('.plaid-transaction-history').removeClass('d-none')
+                            $('.plaid-accounts').removeClass('d-none');
+                            $('.plaid-transaction-history').removeClass('d-none');
+                            $('.plaid-income-button').removeClass('d-none');
                         })
                         .catch(function (err) {
                             console.log(err);
@@ -148,19 +150,29 @@
                 })
                     .then(function (resp) {
                         resp.data.transactions.forEach(function (element) {
-                            $('.plaid-transaction-history').after(`<div>${element.amount}</div><div>${element.date}</div>`)
-
                             var categoryString = element.category.join(" - ")
-
-                            $('.plaid-transaction-history').after(`<div>${categoryString}</div>`);
-                        });
-                    }).catch(function (error) {
+                            var transTableRow = $('<tr></tr>')
+                            $('.transaction-table-body').append(transTableRow);
+                            transTableRow.append(`<td>${element.date}</td>`);
+                            transTableRow.append(`<td>${categoryString}</td>`);
+                            transTableRow.append(`<td class="text-right">${accounting.formatMoney(Number(element.amount))}</td>`);
+                        })
+                        $('.transaction-table-header').removeClass('d-none');
+                        $('.transaction-table').removeClass('d-none');
+                        $('#t-btn').remove();
+                    })
+                    .catch(function (error) {
                         console.error(error)
-                    });
+                    })
             });
-
             $(".plaid-income-button").on("click", function () {
-                axios.get("/api/transactions/")
+                axios({
+                    method: 'get',
+                    url: '/api/transactions',
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                })
                     .then(function (resp) {
                         console.log(resp);
                         var totalIncome = 0;
@@ -175,18 +187,15 @@
                                 totalIncome += Number(resp.data.transactions[i].amount);
                             }
                         }
-
                         netIncome = totalIncome + totalExpense;
-
                         $(".plaid-income-button").after(`<h3>Your net income: $${netIncome}</h3>`)
-
                     }).catch(function (err) {
                         console.error(err)
                     })
             })
-            $('.nav-link').removeClass('active');
-            var navItem = 'Profile';
-            $(`.nav-link:contains('${navItem}')`).addClass('active');
         });
+        $('.nav-link').removeClass('active');
+        var navItem = 'Profile';
+        $(`.nav-link:contains('${navItem}')`).addClass('active');
     </script>
 </div>
